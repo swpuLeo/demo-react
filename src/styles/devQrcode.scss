@@ -1,0 +1,12 @@
+.dev-qrcode-wrap {
+  position: fixed;
+  right: 10vw;
+  bottom: 10vh;
+  .dev-qrcode-modal {
+    .qrcode {
+      width: 100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+  }
+}
