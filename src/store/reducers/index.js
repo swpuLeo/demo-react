@@ -1,23 +1,19 @@
+import { ADD } from '../actions/types'
+
 const initState = {
-  todos: [
-    {
-      id: parseInt(Math.random() * 10000000),
-      isComplete: false,
-      title: '学习redux',
-    },
-    {
-      id: parseInt(Math.random() * 10000000),
-      isComplete: true,
-      title: '学习react',
-    },
-    {
-      id: parseInt(Math.random() * 10000000),
-      isComplete: false,
-      title: '学习node',
-    },
-  ],
+  num: 0,
 }
 
 export default function(state = initState, action) {
+  switch (action.type) {
+    case ADD:
+      const { num } = state
+      state = {
+        num: num + action.payload,
+      }
+      break
+    default:
+      break
+  }
   return state
 }

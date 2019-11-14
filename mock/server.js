@@ -1,10 +1,14 @@
 const express = require('express')
 const app = express()
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.send('react mock')
 })
 
-app.listen(3003, function() {
+app.get('/api/helloworld', (req, res) => {
+  res.send('hello, world')
+})
+
+app.listen(3003, () => {
   console.log('server is running ...')
 })
