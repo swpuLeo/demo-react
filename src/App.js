@@ -3,7 +3,7 @@ import Routes from './router'
 import 'antd/dist/antd.css'
 import './App.css'
 import './styles/index.scss'
-import DevQrcode from './components/DevQrcode'
+import DevQrcode from './components/Common/DevQrcode'
 
 function App() {
   return (

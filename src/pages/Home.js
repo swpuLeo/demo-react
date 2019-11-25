@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import actions from '../store/actions'
 import { Link } from 'react-router-dom'
+import Header from '../components/Home/Header'
 
 class Home extends Component {
   render() {
@@ -22,6 +23,9 @@ class Home extends Component {
             <Link to="/detail">to detail</Link>
           </li>
         </ul>
+        <div>
+        </div>
+        <Header />
       </>
     )
   }
