@@ -1,22 +1,71 @@
 import React, { Component } from 'react'
 import 'antd/dist/antd.css'
-import { Input, Icon } from 'antd'
+import { Icon, Form, Input } from 'antd'
 import { Link } from 'react-router-dom'
 import Bscroll from 'better-scroll'
+import { connect } from 'react-redux'
 
-const { Search } = Input
+class AreaList extends Component {
+  constructor() {
+    super()
+    this.state = {
+      cities: [],
+      hotCities: [],
+      result: [],
+      keyword: [],
+    }
+  }
 
-export default class AreaList extends Component {
   componentDidMount() {
     const warpper = document.querySelector('.list-warp')
-    const scroll = new Bscroll(warpper)
+    const searchWarpper = document.querySelector('.search-content')
+    if (searchWarpper) {
+      this.searchScroll = new Bscroll(searchWarpper)
+    }
+    this.scroll = new Bscroll(warpper)
+
+    fetch('./city.json')
+      .then(res => res.json())
+      .then(this.handleGetCityInfo.bind(this))
+  }
+
+  handleGetCityInfo(res) {
+    var data = res.data
+    this.setState({
+      cities: data.cities,
+      hotCities: data.hotCities,
+    })
   }
 
   handleItemTitle(e) {
     const element = document.getElementById(e.target.innerText)
-    element.scrollIntoView()
+    this.scroll.scrollToElement(element)
   }
 
+  handleInput(e) {
+    if (e.target.value) {
+      const list = []
+      for (let i in this.state.cities) {
+        this.state.cities[i].forEach(value => {
+          if (
+            value.spell.indexOf(e.target.value) > -1 ||
+            value.name.indexOf(e.target.value) > -1
+          ) {
+            list.push(value)
+          }
+        })
+      }
+      this.setState({
+        result: list,
+        keyword: e.target.value,
+      })
+    } else {
+      this.setState({
+        result: [],
+        keyword: [],
+      })
+    }
+  }
   render() {
     return (
       <div>
@@ -32,8 +81,48 @@ export default class AreaList extends Component {
             城市选择
           </div>
           <div className="areaList-input">
-            <Search placeholder="输入城市名或拼音" />
+            <Input
+              placeholder="输入城市名或拼音"
+              allowClear
+              onChange={this.handleInput.bind(this)}
+            />
           </div>
+          {this.state.keyword.length ? (
+            <div className="search-content">
+              <ul>
+                {this.state.result.length
+                  ? this.state.result.map((item, i) => {
+                      return (
+                        <div key={i}>
+                          <li key={item.id} className="item-name">
+                            {item.name}
+                          </li>
+                        </div>
+                      )
+                    })
+                  : null}
+                {!this.state.result.length ? '未找到' : null}
+              </ul>
+            </div>
+          ) : null}
+          {/*
+          <div className="search-content">
+            <ul>
+              {this.state.result.length
+                ? this.state.result.map((item, i) => {
+                    return (
+                      <div key={i}>
+                        <li key={item.id} className="item-name">
+                          {item.name}
+                        </li>
+                      </div>
+                    )
+                  })
+                : null}
+              {!this.state.result.length ? '未找到' : null}
+            </ul>
+          </div>
+          */}
         </div>
 
         <div>
@@ -53,156 +142,53 @@ export default class AreaList extends Component {
               <div className="hot-city">
                 <div className="hot-city-title">热门城市</div>
                 <div className="name-list">
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
+                  {this.state.hotCities.map(item => {
+                    return (
+                      <div className="city-name" key={item.id}>
+                        {item.name}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
               <div className="item">
-                <div className="item-title" id="A">
-                  A
-                </div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-              </div>
-              <div className="item">
-                <div className="item-title" id="B">
-                  B
-                </div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-              </div>
-              <div className="item">
-                <div className="item-title" id="C">
-                  C
-                </div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
-                <div className="item-name">阿坝</div>
+                {Object.keys(this.state.cities).map((item, i) => {
+                  return (
+                    <div key={i}>
+                      <div className="item-title" id={item} key={item}>
+                        {item}
+                      </div>
+                      {//console.log(this.state.cities)
+                      this.state.cities[item].map(inneritem => {
+                        return (
+                          <div className="item-name" key={inneritem.id}>
+                            {inneritem.name}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>
         </div>
 
         <ul className="index">
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            A
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            B
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            C
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            D
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            E
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            F
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            G
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            H
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            I
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            J
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            K
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            L
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            M
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            N
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            O
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            P
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            Q
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            R
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            S
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            T
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            U
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            V
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            W
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            X
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            Y
-          </li>
-          <li onClick={this.handleItemTitle.bind(this)} className="index-name">
-            Z
-          </li>
+          {Object.keys(this.state.cities).map(item => {
+            return (
+              <li
+                className="index-name"
+                onClick={this.handleItemTitle.bind(this)}
+                key={item}>
+                {item}
+              </li>
+            )
+          })}
         </ul>
       </div>
     )
   }
 }
+
+export default connect()(AreaList)

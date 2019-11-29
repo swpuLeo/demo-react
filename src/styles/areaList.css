@@ -102,7 +102,6 @@ li {
 
 .list-warp {
   overflow: hidden;
-
   position: absolute;
   top: 101px;
   right: 0;
@@ -113,4 +112,15 @@ li {
 .index-name {
   line-height: 20px;
   text-align: center;
+}
+
+.search-content {
+  z-index: 1;
+  overflow: hidden;
+  position: absolute;
+  top: 101px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #eee;
 }
