@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import 'antd/dist/antd.css'
 import { Icon, Form, Input } from 'antd'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
+
 import Bscroll from 'better-scroll'
 import { connect } from 'react-redux'
+import actions from '../../store/actions'
 
 class AreaList extends Component {
   constructor() {
@@ -17,12 +19,17 @@ class AreaList extends Component {
   }
 
   componentDidMount() {
+    const options = {
+      click: true,
+    }
     const warpper = document.querySelector('.list-warp')
     const searchWarpper = document.querySelector('.search-content')
     if (searchWarpper) {
       this.searchScroll = new Bscroll(searchWarpper)
     }
-    this.scroll = new Bscroll(warpper)
+    if (warpper) {
+      this.scroll = new Bscroll(warpper, options)
+    }
 
     fetch('./city.json')
       .then(res => res.json())
@@ -66,6 +73,13 @@ class AreaList extends Component {
       })
     }
   }
+
+  handleCityClick(city) {
+    this.props.click(city)
+    console.log(this.props.city)
+    //this.props.history.push('/')
+  }
+
   render() {
     return (
       <div>
@@ -94,9 +108,17 @@ class AreaList extends Component {
                   ? this.state.result.map((item, i) => {
                       return (
                         <div key={i}>
-                          <li key={item.id} className="item-name">
-                            {item.name}
-                          </li>
+                          <Link to="/">
+                            <li
+                              key={item.id}
+                              className="item-name"
+                              onClick={this.handleCityClick.bind(
+                                this,
+                                item.name
+                              )}>
+                              {item.name}
+                            </li>
+                          </Link>
                         </div>
                       )
                     })
@@ -105,75 +127,61 @@ class AreaList extends Component {
               </ul>
             </div>
           ) : null}
-          {/*
-          <div className="search-content">
-            <ul>
-              {this.state.result.length
-                ? this.state.result.map((item, i) => {
-                    return (
-                      <div key={i}>
-                        <li key={item.id} className="item-name">
-                          {item.name}
-                        </li>
-                      </div>
-                    )
-                  })
-                : null}
-              {!this.state.result.length ? '未找到' : null}
-            </ul>
-          </div>
-          */}
         </div>
-
-        <div>
+        {this.state.hotCities.length ? (
           <div className="list-warp">
             <div>
-              <div className="location">
-                <div className="location-title">当前城市</div>
-                <div className="name-list">
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
-                  <div className="city-name">北京</div>
+              <div>
+                <div className="location">
+                  <div className="location-title">当前城市</div>
+                  <div className="name-list">
+                    <div className="city-name">{this.props.city}</div>
+                  </div>
                 </div>
-              </div>
-              <div className="hot-city">
-                <div className="hot-city-title">热门城市</div>
-                <div className="name-list">
-                  {this.state.hotCities.map(item => {
+                <div className="hot-city">
+                  <div className="hot-city-title">热门城市</div>
+                  <div className="name-list">
+                    {this.state.hotCities.map(item => {
+                      return (
+                        <div
+                          className="city-name"
+                          key={item.id}
+                          onClick={this.handleCityClick.bind(this, item.name)}>
+                          <Link to="/">{item.name}</Link>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+                <div className="item">
+                  {Object.keys(this.state.cities).map((item, i) => {
                     return (
-                      <div className="city-name" key={item.id}>
-                        {item.name}
+                      <div key={i}>
+                        <div className="item-title" id={item} key={item}>
+                          {item}
+                        </div>
+                        {//console.log(this.state.cities)
+                        this.state.cities[item].map(inneritem => {
+                          return (
+                            <div
+                              className="item-name"
+                              key={inneritem.id}
+                              onClick={this.handleCityClick.bind(
+                                this,
+                                inneritem.name
+                              )}>
+                              {inneritem.name}
+                            </div>
+                          )
+                        })}
                       </div>
                     )
                   })}
                 </div>
               </div>
-              <div className="item">
-                {Object.keys(this.state.cities).map((item, i) => {
-                  return (
-                    <div key={i}>
-                      <div className="item-title" id={item} key={item}>
-                        {item}
-                      </div>
-                      {//console.log(this.state.cities)
-                      this.state.cities[item].map(inneritem => {
-                        return (
-                          <div className="item-name" key={inneritem.id}>
-                            {inneritem.name}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  )
-                })}
-              </div>
             </div>
           </div>
-        </div>
-
+        ) : null}
         <ul className="index">
           {Object.keys(this.state.cities).map(item => {
             return (
@@ -191,4 +199,9 @@ class AreaList extends Component {
   }
 }
 
-export default connect()(AreaList)
+export default connect(
+  state => ({
+    ...state,
+  }),
+  actions
+)(AreaList)

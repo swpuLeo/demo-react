@@ -1,8 +1,12 @@
-import { ADD } from './types'
+import { ADD, CLICK } from './types'
 
 const actions = {
   add: payload => ({
     type: ADD,
+    payload,
+  }),
+  click: payload => ({
+    type: CLICK,
     payload,
   }),
 }
