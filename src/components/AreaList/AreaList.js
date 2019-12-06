@@ -19,29 +19,32 @@ class AreaList extends Component {
   }
 
   componentDidMount() {
+    fetch('./city.json')
+      .then(res => res.json())
+      .then(this.handleGetCityInfo.bind(this))
     const options = {
       click: true,
     }
     const warpper = document.querySelector('.list-warp')
-    const searchWarpper = document.querySelector('.search-content')
-    if (searchWarpper) {
-      this.searchScroll = new Bscroll(searchWarpper)
-    }
-    if (warpper) {
-      this.scroll = new Bscroll(warpper, options)
-    }
-
-    fetch('./city.json')
-      .then(res => res.json())
-      .then(this.handleGetCityInfo.bind(this))
+    this.scroll = new Bscroll(warpper, options)
   }
 
   handleGetCityInfo(res) {
     var data = res.data
-    this.setState({
-      cities: data.cities,
-      hotCities: data.hotCities,
-    })
+    this.setState(
+      {
+        cities: data.cities,
+        hotCities: data.hotCities,
+      } /*,
+      () => {
+        const options = {
+          click: true,
+        }
+        const warpper = document.querySelector('.list-warp')
+        this.scroll = new Bscroll(warpper, options)
+      }
+    */
+    )
   }
 
   handleItemTitle(e) {
@@ -62,10 +65,20 @@ class AreaList extends Component {
           }
         })
       }
-      this.setState({
-        result: list,
-        keyword: e.target.value,
-      })
+      this.setState(
+        {
+          result: list,
+          keyword: e.target.value,
+        },
+        () => {
+          const options = {
+            click: true,
+          }
+          const searchWarpper = document.querySelector('.search-content')
+
+          this.scroll = new Bscroll(searchWarpper, options)
+        }
+      )
     } else {
       this.setState({
         result: [],
@@ -76,13 +89,12 @@ class AreaList extends Component {
 
   handleCityClick(city) {
     this.props.click(city)
-    console.log(this.props.city)
-    //this.props.history.push('/')
+    localStorage.setItem('city', city)
   }
 
   render() {
     return (
-      <div>
+      <div class="arealist-warp">
         <div className="header-warp">
           <div className="areaList-header">
             <div className="header-left">
@@ -128,41 +140,45 @@ class AreaList extends Component {
             </div>
           ) : null}
         </div>
-        {this.state.hotCities.length ? (
-          <div className="list-warp">
+        <div className="list-warp">
+          <div>
             <div>
-              <div>
-                <div className="location">
-                  <div className="location-title">当前城市</div>
-                  <div className="name-list">
-                    <div className="city-name">{this.props.city}</div>
+              <div className="location">
+                <div className="location-title">当前城市</div>
+                <div className="name-list">
+                  <div className="city-name">
+                    {localStorage.getItem('city')}
                   </div>
                 </div>
-                <div className="hot-city">
-                  <div className="hot-city-title">热门城市</div>
-                  <div className="name-list">
-                    {this.state.hotCities.map(item => {
-                      return (
+              </div>
+              <div className="hot-city">
+                <div className="hot-city-title">热门城市</div>
+                <div className="name-list">
+                  {this.state.hotCities.map((item, i) => {
+                    return (
+                      <Link to="/" key={i}>
                         <div
                           className="city-name"
                           key={item.id}
                           onClick={this.handleCityClick.bind(this, item.name)}>
-                          <Link to="/">{item.name}</Link>
+                          {item.name}
                         </div>
-                      )
-                    })}
-                  </div>
+                      </Link>
+                    )
+                  })}
                 </div>
-                <div className="item">
-                  {Object.keys(this.state.cities).map((item, i) => {
-                    return (
-                      <div key={i}>
-                        <div className="item-title" id={item} key={item}>
-                          {item}
-                        </div>
-                        {//console.log(this.state.cities)
-                        this.state.cities[item].map(inneritem => {
-                          return (
+              </div>
+              <div className="item">
+                {Object.keys(this.state.cities).map((item, i) => {
+                  return (
+                    <div key={i}>
+                      <div className="item-title" id={item} key={item}>
+                        {item}
+                      </div>
+                      {//console.log(this.state.cities)
+                      this.state.cities[item].map((inneritem, j) => {
+                        return (
+                          <Link to="/" key={j}>
                             <div
                               className="item-name"
                               key={inneritem.id}
@@ -172,16 +188,17 @@ class AreaList extends Component {
                               )}>
                               {inneritem.name}
                             </div>
-                          )
-                        })}
-                      </div>
-                    )
-                  })}
-                </div>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  )
+                })}
               </div>
             </div>
           </div>
-        ) : null}
+        </div>
+
         <ul className="index">
           {Object.keys(this.state.cities).map(item => {
             return (

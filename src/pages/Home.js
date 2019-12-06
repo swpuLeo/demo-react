@@ -3,12 +3,16 @@ import { connect } from 'react-redux'
 import actions from '../store/actions'
 import { Link } from 'react-router-dom'
 import Header from '../components/Home/Header'
+import Swiper from '../components/Home/Swiper'
+import Icons from '../components/Home/Icons'
+import Recommend from '../components/Home/Recommend'
+import Weekend from '../components/Home/Weekend'
 
 class Home extends Component {
   render() {
     return (
       <>
-        <div
+        {/*<div
           onClick={() => {
             this.props.add(1)
           }}>
@@ -24,8 +28,12 @@ class Home extends Component {
           </li>
         </ul>
         <div>
-        </div>
+        </div>*/}
         <Header />
+        <Swiper />
+        <Icons />
+        <Recommend />
+        <Weekend />
       </>
     )
   }

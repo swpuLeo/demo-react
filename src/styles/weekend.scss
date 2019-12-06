@@ -1,0 +1,27 @@
+.weekend-wrapper {
+  .recommend-title {
+    margin-top: 10px;
+    line-height: 40px;
+    background: #eee;
+    text-indent: 10px;
+  }
+  .item-img-wrapper {
+    overflow: hidden;
+    height: 0;
+    padding-bottom: 33.9%;
+  }
+  .item-img {
+    width: 100%;
+  }
+  .item-infor {
+    padding: 5px;
+    .item-title {
+      line-height: 30px;
+      font-size: 15px;
+    }
+    .item-desc {
+      line-height: 24px;
+      color: #ccc;
+    }
+  }
+}

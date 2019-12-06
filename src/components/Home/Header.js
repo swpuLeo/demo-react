@@ -21,7 +21,7 @@ class Header extends Component {
         </div>
         <Link to="/arealist">
           <div className="header-right">
-            {this.props.city}
+            {localStorage.getItem('city')}
             <Icon type="caret-down" />
           </div>
         </Link>

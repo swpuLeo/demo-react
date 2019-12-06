@@ -1,0 +1,46 @@
+.icons {
+  overflow: hidden;
+  height: 0;
+  padding-bottom: 50%; //这样做的目的是当图片没有加载出来时会占位 下面的元素不会占用此位置
+  margin-top: 10px;
+  .icon {
+    position: relative;
+    float: left;
+    width: 25%;
+    padding-bottom: 25%;
+    overflow: hidden;
+    height: 0;
+
+    .icon-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 22px;
+
+      .icon-img-content {
+        display: block;
+        margin: 0 auto;
+        height: 100%;
+      }
+    }
+    .icon-name {
+      width: 100%;
+      margin-block-start: 0;
+      margin-block-end: 0;
+      margin-bottom: 0;
+      position: absolute;
+      bottom: 0;
+      text-align: center;
+    }
+  }
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  background: #40a9ff;
+  width: 6px;
+}
+
+.ant-carousel .slick-dots li button {
+  width: 6px;
+}

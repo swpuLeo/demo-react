@@ -1,0 +1,40 @@
+.recommend-wrapper {
+  .recommend-title {
+    margin-top: 10px;
+    line-height: 40px;
+    background: #eee;
+    text-indent: 10px;
+  }
+  .item {
+    overflow: hidden;
+    display: flex;
+    height: 100px;
+    border-bottom: 1px solid rgb(206, 206, 206);
+    .item-img {
+      height: 100px;
+      width: 100px;
+      padding: 5px;
+    }
+    .item-infor {
+      flex: 1;
+      padding: 5px;
+      .item-title {
+        line-height: 30px;
+        font-size: 15px;
+      }
+      .item-desc {
+        line-height: 24px;
+        color: #ccc;
+      }
+      .item-button {
+        line-height: 18px;
+        margin-top: 8px;
+        background: #ff9300;
+        padding: 0 5px;
+        border-radius: 4px;
+        color: #fff;
+        border-width: 1px;
+      }
+    }
+  }
+}
