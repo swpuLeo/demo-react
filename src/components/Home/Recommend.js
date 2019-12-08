@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import { Link } from 'react-router-dom'
 class Recommend extends Component {
   constructor() {
     super()
@@ -37,19 +37,21 @@ class Recommend extends Component {
           <ul>
             {this.state.recommendList.map((item, i) => {
               return (
-                <li class="item" key={i}>
-                  <img class="item-img" src={item.imgUrl} alt="" />
+                <Link to="/detail">
+                  <li class="item" key={i}>
+                    <img class="item-img" src={item.imgUrl} alt="" />
 
-                  <div class="item-infor">
-                    <p class="item-title" style={{ margin: 0 }}>
-                      {item.title}
-                    </p>
-                    <p class="item-desc" style={{ margin: 0 }}>
-                      {item.desc}
-                    </p>
-                    <button class="item-button">查看详情</button>
-                  </div>
-                </li>
+                    <div class="item-infor">
+                      <p class="item-title" style={{ margin: 0 }}>
+                        {item.title}
+                      </p>
+                      <p class="item-desc" style={{ margin: 0 }}>
+                        {item.desc}
+                      </p>
+                      <button class="item-button">查看详情</button>
+                    </div>
+                  </li>{' '}
+                </Link>
               )
             })}
           </ul>

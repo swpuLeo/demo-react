@@ -3,6 +3,7 @@ import { ADD, CLICK } from '../actions/types'
 const initState = {
   num: 0,
   city: '北京',
+  //isShow: false,
 }
 
 export default function(state = initState, action) {
@@ -14,10 +15,10 @@ export default function(state = initState, action) {
       }
       break
     case CLICK:
-      const { city } = state
+      /*const { isShow } = state
       state = {
-        city: action.payload || city,
-      }
+        isShow: action.payload || isShow,
+      }*/
       break
     default:
       break

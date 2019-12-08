@@ -10,21 +10,23 @@ const { Search } = Input
 class Header extends Component {
   render() {
     return (
-      <div className="header">
-        <div className="header-left">
-          <div className="left-icon">
-            <Icon type="left" />
+      <div className="HomeHeader">
+        <div className="header">
+          <div className="header-left">
+            <div className="left-icon">
+              <Icon type="left" />
+            </div>
           </div>
-        </div>
-        <div className="header-input">
-          <Search placeholder="输入城市/景点/游玩主题" />
-        </div>
-        <Link to="/arealist">
-          <div className="header-right">
-            {localStorage.getItem('city')}
-            <Icon type="caret-down" />
+          <div className="header-input">
+            <Search placeholder="输入城市/景点/游玩主题" />
           </div>
-        </Link>
+          <Link to="/arealist">
+            <div className="header-right">
+              {localStorage.getItem('city')}
+              <Icon type="caret-down" />
+            </div>
+          </Link>
+        </div>
       </div>
     )
   }

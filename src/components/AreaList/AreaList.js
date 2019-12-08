@@ -88,7 +88,7 @@ class AreaList extends Component {
   }
 
   handleCityClick(city) {
-    this.props.click(city)
+    //this.props.click(city)
     localStorage.setItem('city', city)
   }
 

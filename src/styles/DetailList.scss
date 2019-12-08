@@ -1,0 +1,24 @@
+.DetailList {
+  .item-title {
+    line-height: 40px;
+    font-size: 18px;
+    padding: 0 10px;
+  }
+  .item-title-icon {
+    position: relative;
+    left: 1px;
+    top: 5px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(http://s.qunarzz.com/piao/image/touch/sight/detail.png)
+      no-repeat;
+    background-position-x: 0;
+    background-position-y: -23px;
+    margin-right: 5px;
+    background-size: 25px 150px;
+  }
+  .item-children {
+    padding: 0 10px;
+  }
+}

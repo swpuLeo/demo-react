@@ -27,8 +27,7 @@ class Home extends Component {
             <Link to="/detail">to detail</Link>
           </li>
         </ul>
-        <div>
-        </div>*/}
+        <div></div>*/}
         <Header />
         <Swiper />
         <Icons />
